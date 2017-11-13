@@ -1,12 +1,9 @@
 /*
-FREQUENCY QUIZ
+ANALOG INPUT EXAMPLE
 
-Power up WEFT UI Board and try to guess the frequency of the texture
-Press the encoder pushbutton to get an answer and change the mystery freq
+Power up WEFT UI Board and press the encoder pushbutton to "sample" a value from Analog A9
 
-Manually, you can dig in and change the waveform (change the wavelabel variable)
-Are there some waveforms that are harder to judge frequency for?
-Are there a distinct number of "ranges" of frequencies?
+This sketch is intentionally open-ended - have fun coming up with other mappings and behaviors!
 
 */
 
@@ -59,7 +56,7 @@ AudioConnection          patchCord4(theTriangle, 0, mixer1, 2);
 AudioConnection          patchCord5(mixer1, dac1);
 // GUItool: end automatically generated code
 
-#if (SSD1306_LCDHEIGHT != 64)
+#if (SSD1306_LCDHEIGHT != 32)
 #error("Height incorrect, please fix Adafruit_SSD1306.h!");
 #endif
 Adafruit_SSD1306 display(OLED_RESET);
@@ -89,15 +86,16 @@ void setup() {
   weft.setToAnalogInputGain(analogGain);
   if (DISPLAY_PRESENT) {
     display.begin(SSD1306_SWITCHCAPVCC, 0x3C);  // initialize with the I2C addr 0x3D (for the 128x64)
-    display.setRotation(2); // 2:rotates screen 180º, 3 is correct for WEFT Engine board
+    display.setRotation(2); // 2:rotates screen 180º, 3 is correct for WEFT UI Board
     display.setTextSize(1);
     display.setTextColor(WHITE);
   }
-  pinMode(analogPin, INPUT_PULLUP)
+  pinMode(analogPin, INPUT_PULLUP);
 }
 
 void loop() {
   reading = analogRead(analogPin)*0.8 + oldReading*0.2;
+  float scaled = constrain(floatmap(reading, 0, 4096, minFreq, maxFreq), minFreq, maxFreq);
   noInterrupts();
   triggered = triggeredV;
   interrupts();

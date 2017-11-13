@@ -1,6 +1,6 @@
 /*
 WEFTlib Electrovibration library
-2017, nfeehan / AKA
+2017, nfeehan / AKA aka.farm
 Addition of some methods to make electrovibration actuation more convenient. Probably also useful for piezo effects?
 
 Based gratefully off of:
@@ -8,16 +8,13 @@ Based gratefully off of:
   Created by Yuri Klenaov, January, 2016. (yurikleb.com)
   Released into the public domain.
   For more information see the DRV2667 Datasheet http://www.ti.com/lit/ds/symlink/drv2667.pdf
-*/
 
-
-  /*
-  there are three modes for this IC that result in output.
-waveform synthesis playback:
+...there are three modes for this IC that result in output.
+waveform synthesis playback: ie, send the ic a description of a sequence of sine waves
 waveform "Direct Playback": in this mode, the IC basically reads a soundfile you've stored in RAM (via the savePattern() call)
 analog in: calling setToAnalogInput() or setToAnalogInputGain(byte gain)
 
-  */
+*/
 
 #if ARDUINO >= 100
  #include "Arduino.h"
